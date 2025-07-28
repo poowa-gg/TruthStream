@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruthStream API Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        .endpoint {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        .endpoint h3 {
+            margin: 0 0 10px 0;
+            color: #4CAF50;
+        }
+        .endpoint-url {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .test-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        .test-btn:hover {
+            background: #45a049;
+        }
+        .response {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status.online {
+            background: #4CAF50;
+            color: white;
+        }
+        .status.offline {
+            background: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌊 TruthStream</h1>
+        <p class="subtitle">Verifiable Experience Marketplace - API Demo</p>
+        
+        <div style="text-align: center; margin: 20px 0;">
+            <span id="status" class="status offline">API Offline</span>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">✅</div>
+                <h3>Experience Verification</h3>
+                <p>Multi-source verification using zkTLS technology</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🏆</div>
+                <h3>Trust-Based Marketplace</h3>
+                <p>Earn tokens for authentic experiences</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔗</div>
+                <h3>XION Integration</h3>
+                <p>Built on XION blockchain with Dave SDK</p>
+            </div>
+        </div>
+
+        <h2>🔗 API Endpoints</h2>
+
+        <div class="endpoint">
+            <h3>Root Endpoint</h3>
+            <div class="endpoint-url">GET http://localhost:3000/</div>
+            <button class="test-btn" onclick="testEndpoint('/')">Test</button>
+            <div id="response-root" class="response"></div>
+        </div>
+
+        <div class="endpoint">
+            <h3>Health Check</h3>
+            <div class="endpoint-url">GET http://localhost:3000/api/health</div>
+            <button class="test-btn" onclick="testEndpoint('/api/health')">Test</button>
+            <div id="response-health" class="response"></div>
+        </div>
+
+        <div class="endpoint">
+            <h3>User Stats</h3>
+            <div class="endpoint-url">GET http://localhost:3000/api/user/stats</div>
+            <button class="test-btn" onclick="testEndpoint('/api/user/stats')">Test</button>
+            <div id="response-stats" class="response"></div>
+        </div>
+
+        <div class="endpoint">
+            <h3>User Experiences</h3>
+            <div class="endpoint-url">GET http://localhost:3000/api/user/experiences</div>
+            <button class="test-btn" onclick="testEndpoint('/api/user/experiences')">Test</button>
+            <div id="response-experiences" class="response"></div>
+        </div>
+
+        <div class="endpoint">
+            <h3>Challenges</h3>
+            <div class="endpoint-url">GET http://localhost:3000/api/challenges</div>
+            <button class="test-btn" onclick="testEndpoint('/api/challenges')">Test</button>
+            <div id="response-challenges" class="response"></div>
+        </div>
+
+        <div class="endpoint">
+            <h3>Wallet Connection</h3>
+            <div class="endpoint-url">POST http://localhost:3000/api/auth/connect</div>
+            <button class="test-btn" onclick="testAuth()">Test</button>
+            <div id="response-auth" class="response"></div>
+        </div>
+
+        <h2>🎯 Hackathon Demo</h2>
+        <p>This is a working demonstration of the TruthStream API for the XION Proof of Concept hackathon. The API showcases:</p>
+        <ul>
+            <li>✅ Multi-source experience verification</li>
+            <li>✅ Trust-based user scoring system</li>
+            <li>✅ Brand challenge marketplace</li>
+            <li>✅ XION blockchain integration</li>
+            <li>✅ zkTLS verification technology</li>
+        </ul>
+    </div>
+
+    <script>
+        // Check API status on load
+        checkApiStatus();
+
+        async function checkApiStatus() {
+            try {
+                const response = await fetch('http://localhost:3000/api/health');
+                if (response.ok) {
+                    document.getElementById('status').textContent = 'API Online';
+                    document.getElementById('status').className = 'status online';
+                }
+            } catch (error) {
+                document.getElementById('status').textContent = 'API Offline';
+                document.getElementById('status').className = 'status offline';
+            }
+        }
+
+        async function testEndpoint(endpoint) {
+            const responseId = 'response-' + endpoint.replace(/[^a-zA-Z]/g, '');
+            const responseDiv = document.getElementById(responseId) || 
+                              document.getElementById('response-' + endpoint.split('/').pop());
+            
+            try {
+                const response = await fetch('http://localhost:3000' + endpoint);
+                const data = await response.json();
+                
+                responseDiv.style.display = 'block';
+                responseDiv.innerHTML = JSON.stringify(data, null, 2);
+            } catch (error) {
+                responseDiv.style.display = 'block';
+                responseDiv.innerHTML = 'Error: ' + error.message;
+            }
+        }
+
+        async function testAuth() {
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/connect', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        address: 'xion1demo123',
+                        signature: '0xdemo-signature'
+                    })
+                });
+                const data = await response.json();
+                
+                document.getElementById('response-auth').style.display = 'block';
+                document.getElementById('response-auth').innerHTML = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('response-auth').style.display = 'block';
+                document.getElementById('response-auth').innerHTML = 'Error: ' + error.message;
+            }
+        }
+
+        // Auto-refresh status every 5 seconds
+        setInterval(checkApiStatus, 5000);
+    </script>
+</body>
+</html>
