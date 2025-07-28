@@ -194,5 +194,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ for the XION Proof of Concept Hackathon**
 
-🌊 **TruthStream - Where Authenticity Meets Opportunity**ompetitions**
-- Gamified e
+🌊 **TruthStream - Where Authenticity Meets Opportunity
